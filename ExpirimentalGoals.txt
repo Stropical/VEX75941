@@ -1,0 +1,4 @@
+Record and Replay Autonomous:
+    Record with Spaced Array Format: <0-127> <0-127> <0-127>...
+    Numbers with spaces in between them, the ammount of vars depends on how many controls are recorded
+    Replay exactly what happened down to the inch
