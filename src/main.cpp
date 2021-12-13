@@ -155,12 +155,18 @@ competition_initialize() {
  */
 void
 autonomous() {
-	tare_gyro();
+	drive_pid.suspend();
 	reset_drive_sensor();
-	set_drive_brake(MOTOR_BRAKE_HOLD);
-	drive_pid.resume();
+	set_drive_brake(MOTOR_BRAKE_HOLD); // This is preference to what you like to drive on
 
-	auto_select(true);
+	//Replay System
+	Replay rp;
+	rp.init();
+
+	while(true) {
+		rp.replay();
+		pros::delay(23);
+	}
 }
 
 
@@ -180,14 +186,15 @@ autonomous() {
  */
 void
 opcontrol() { 
-	//Record rc; 
-	//rc.init();
+	Record rc; 
+	rc.init();
+
 	drive_pid.suspend();
 	reset_drive_sensor();
-	set_drive_brake(MOTOR_BRAKE_COAST); // This is preference to what you like to drive on
+	set_drive_brake(MOTOR_BRAKE_HOLD); // This is preference to what you like to drive on
 
 	while (true) {
-		//rc.record(master);
+		rc.record(master);
 		chassis_joystick_control();
 
 		conveyor_control();
@@ -195,7 +202,8 @@ opcontrol() {
 		mogo_control();
 		tilter_control();
 
-		pros::delay(DELAY_TIME);
+		//rp.replay();
+		pros::delay(20);
 	}
 
 	//rc.stopRecord();
